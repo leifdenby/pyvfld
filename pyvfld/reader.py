@@ -35,7 +35,7 @@ def _parse_synop_data_to_dataframe(fh, variables, n_stations):
         # missing
         col_names.append("FI")
     col_names += variables
-    dtypes = {v: v != "station_id" and np.float16 or np.int8 for v in col_names}
+    dtypes = {v: v != "station_id" and np.float32 or np.int32 for v in col_names}
 
     # XXX: have to load the lines ourselves because pd.read_csv reads messes up
     # the read position

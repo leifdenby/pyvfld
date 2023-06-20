@@ -12,11 +12,16 @@ def test_reader():
     fps_vobs = _get_examples(ftype="vobs")
 
     for fp in fps_vfld + fps_vobs:
-        import ipdb
+        df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
 
-        with ipdb.launch_ipdb_on_exception():
-            df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
-        # try:
-        #     df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
-        # except Exception as ex:
-        #     raise Exception(f"There was an issue reading {fp}") from ex
+
+def test_to_dataset():
+    fps_vfld = _get_examples(ftype="vfld")
+    fps_vobs = _get_examples(ftype="vobs")
+
+    for fp in fps_vfld + fps_vobs:
+        df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
+        ds_synop = pyvfld.to_dataset(df=df_synop)
+        assert set(df_synop.columns).difference(ds_synop.data_vars.keys()) == {
+            "station_id"
+        }
