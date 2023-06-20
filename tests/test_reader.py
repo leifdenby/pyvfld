@@ -25,3 +25,9 @@ def test_to_dataset():
         assert set(df_synop.columns).difference(ds_synop.data_vars.keys()) == {
             "station_id"
         }
+
+        if fp.name == "vfldenea43h22_00ppmbr000202306200303":
+            for v in pyvfld.nomenclature.RADIATION_VARIABLES.keys():
+                v_attrs = ds_synop[v].attrs
+                assert "units" in v_attrs
+                assert "long_name" in v_attrs

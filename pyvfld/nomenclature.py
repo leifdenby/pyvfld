@@ -149,4 +149,22 @@ MONITOR_PLOTDEFS_VARIABLES = {
 
 MONITOR_PLOTDEFS_VARIABLES["PE"] = MONITOR_PLOTDEFS_VARIABLES["PE12"]
 
+
+# Radiation variables added to Harmonie in https://github.com/Hirlam/Harmonie/pull/625/files
+
+RADIATION_VARIABLES = dict(
+    GRAD=dict(TEXT="Global radiation flux"),
+    DNI=dict(TEXT="Direct Normal Irradiance"),
+    LW=dict(TEXT="Longwave radiation flux"),
+    SWDIR=dict(TEXT="Shortwave radiation flux"),
+    NSW=dict(TEXT="Net shortwave radiation flux (surface)"),
+    NLW=dict(TEXT="Net longwave radiation flux (surface)"),
+    CSNSW=dict(TEXT="SW net clear sky radiation"),
+    CSNLW=dict(TEXT="LW net clear sky radiation"),
+)
+
+for v in RADIATION_VARIABLES.keys():
+    RADIATION_VARIABLES[v]["UNIT"] = "J/m^2"
+
 VARIABLES = MONITOR_PLOTDEFS_VARIABLES
+VARIABLES.update(RADIATION_VARIABLES)
