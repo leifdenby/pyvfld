@@ -78,5 +78,5 @@ Attributes:
 - [x] read VFLD and Vobs data from file
 - [ ] merge all radiosonde dataframes into a single one using MultiIndex
 - [ ] add accumulation mode info to data frames
-- [ ] add units and more descriptive rather than shorthand names for fields
+- [x] add units and more descriptive rather than shorthand names for fields
 - [ ] add ability to write VFLD/Vobs files
