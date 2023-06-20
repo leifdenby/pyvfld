@@ -21,13 +21,34 @@ def _parse_synop_data_to_dataframe(fh, variables, n_stations):
     #     03495   52.77000    1.35000    15.3    6.0000E+00  281.5686E+00
     #     03590   52.12390    0.95750    85.8    1.0000E+00  269.2976E+00
     # .123456789.123456789.123456789.123456789.123456789.123456789.1234567
-    col_names = ["station_id", "lat", "lon"] + variables
-    widths = [10, 11, 11, 8] + [14] * (len(variables) - 1)
+    #
+    #     01010   69.307   16.131     2.0   4.9432E+00   9.4658E+00 275.5978E+00  80.0883E+00   1.0080E+0
+    #     01014   69.234   17.903    29.3 231.7240E+00   2.2136E+00 273.3647E+00  84.0209E+00   1.0017E+0
+    #     01015   69.601   17.837    -6.4 285.2777E+00   6.7298E+00 274.8446E+00  89.6737E+00   1.0079E+0
+    #     01018   69.241   16.003   126.7 356.9360E+00   5.5123E+00 273.9615E+00  87.2850E+00 991.7290E+0
+    # .123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789
+
+    col_names = ["station_id", "lat", "lon"]
+    if "FI" not in variables:
+        # vobs files always includes data for "FI" (geopotential), but isn't
+        # given in the variable list, so we need to include it here if it is
+        # missing
+        col_names.append("FI")
+    col_names += variables
     dtypes = {v: v != "station_id" and np.float16 or np.int8 for v in col_names}
 
-    return pd.read_fwf(
-        fh, nrows=n_stations, widths=widths, names=col_names, dtype=dtypes
+    # XXX: have to load the lines ourselves because pd.read_csv reads messes up
+    # the read position
+    txt = "\n".join(fh.readline() for _ in range(n_stations))
+    df = pd.read_csv(
+        io.StringIO(txt),
+        nrows=n_stations,
+        delimiter=r"\s+",
+        names=col_names,
+        dtype=dtypes,
     )
+
+    return df
 
 
 def _parse_radiosonde_data_to_dataframe(fh, variables, n_levels):

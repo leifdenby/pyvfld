@@ -1,6 +1,6 @@
 # pyvfld
 
-Read VFLD/Vobs files in python
+Read VFLD/Vobs files in python. The format is detailed in the [documentation for the Monitor tool](https://hirlam.github.io/Monitor/dev/#A-general-input-format-1)
 
 
 ## Usage
@@ -26,3 +26,4 @@ Read VFLD/Vobs files in python
 - [ ] merge all radiosonde dataframes into a single one using MultiIndex
 - [ ] add accumulation mode info to data frames
 - [ ] add units and more descriptive rather than shorthand names for fields
+- [ ] add ability to write VFLD/Vobs files

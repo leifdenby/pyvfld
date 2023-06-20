@@ -12,4 +12,11 @@ def test_reader():
     fps_vobs = _get_examples(ftype="vobs")
 
     for fp in fps_vfld + fps_vobs:
-        df_synop, dfs_radiosonds = pyvfld.read_vlfd(fp=fp)
+        import ipdb
+
+        with ipdb.launch_ipdb_on_exception():
+            df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
+        # try:
+        #     df_synop, dfs_radiosondes = pyvfld.read_vlfd(fp=fp)
+        # except Exception as ex:
+        #     raise Exception(f"There was an issue reading {fp}") from ex
